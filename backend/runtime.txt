@@ -1,0 +1,9 @@
+# runtime.txt — tells Railway which Python version to use.
+#
+# Without this file, Railway picks a default version which may
+# not match your local environment and can cause subtle bugs.
+# Always pin your Python version explicitly.
+#
+# Check your local version with: python --version
+
+python-3.11.9

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!--
+      viewport meta tag: tells the browser this is a mobile-first app.
+      width=device-width → use the device's actual screen width.
+      initial-scale=1.0  → don't zoom in or out by default.
+      user-scalable=no   → prevent pinch-to-zoom (feels more app-like).
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <!-- PWA meta tags — these make the app installable on Android -->
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <title>Ada</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <!--
+      'root' is the single div React mounts into.
+      React takes this empty div and fills it with our entire app.
+      Think of it as the empty canvas.
+    -->
+    <div id="root"></div>
+
+    <!--
+      type="module" tells the browser this is a modern JS module.
+      Vite intercepts this during dev and serves files instantly.
+      During build, Vite replaces this with the bundled output.
+    -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

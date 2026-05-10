@@ -1,0 +1,114 @@
+/* ============================================================
+   global.css — Ada's Visual Identity
+   ============================================================
+   CSS Variables (custom properties) let us define our color
+   palette once and use it everywhere.
+   '--variable-name' is defined in :root (the whole document)
+   and used anywhere with: var(--variable-name)
+
+   WHY variables? If we want to change Ada's purple, we change
+   one line here instead of hunting through 10 files.
+   ============================================================ */
+
+:root {
+  --bg:           #0a0a0f;   /* Near-black background */
+  --bg-raised:    #12121f;   /* Slightly lighter — cards, inputs */
+  --bg-hover:     #1a1a2e;   /* Hover states */
+  --border:       #2a2a3f;   /* Subtle borders */
+  --purple:       #9370db;   /* Ada's signature color */
+  --purple-dim:   #6c4fd4;   /* Darker purple — buttons */
+  --lavender:     #c8b8f8;   /* Ada's text color — soft lavender */
+  --text:         #e0e0f0;   /* Paul's text — off-white */
+  --text-muted:   #666680;   /* Timestamps, labels */
+  --text-dim:     #3a3a5a;   /* Placeholder text */
+  --danger:       #e05c5c;   /* Recording indicator */
+}
+
+/* Box-sizing: border-box means padding and border are INCLUDED
+   in the element's width/height calculation.
+   This is the modern standard — avoids layout surprises. */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  /* dvh = dynamic viewport height. Accounts for the browser
+     address bar appearing/disappearing on mobile.
+     Falls back to 100vh on older browsers. */
+  height: 100dvh;
+  overflow: hidden;
+  /* We control scrolling ourselves inside the chat area. */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  /* system-ui uses the phone's native font — feels more native. */
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* antialiased makes text crisper on retina screens. */
+}
+
+/* Prevent text selection across the whole app.
+   Real apps don't have blue selection boxes when you tap around. */
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* BUT allow text selection inside message bubbles
+   so Paul can copy something Ada said. */
+.selectable {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Scrollbar styling for the chat area.
+   We make it very thin and dark — barely visible. */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* Keyframe animations — defined once, used by name in components */
+
+/* Pulse: grows and shrinks. Used on the recording indicator. */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.6; }
+}
+
+/* Fade in from bottom: new messages slide up gently. */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Blink: for the typing cursor indicator */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Shimmer: subtle glow on the mood dot */
+@keyframes shimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}

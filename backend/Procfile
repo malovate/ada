@@ -1,0 +1,21 @@
+# Procfile — tells Railway how to start Ada's backend
+#
+# Railway reads this file and runs the command on the right of the colon.
+# 'web:' is the process type — Railway knows a 'web' process should
+# receive HTTP traffic and assigns it a public URL automatically.
+#
+# We run uvicorn (the web server) pointing at our FastAPI app.
+# The command breakdown:
+#
+#   uvicorn          → the web server (like Apache/Nginx but for Python)
+#   main:app         → "in main.py, find the object called 'app'"
+#   --host 0.0.0.0   → accept connections from any IP (required on cloud)
+#   --port $PORT     → $PORT is set by Railway automatically.
+#                      We MUST use it — Railway decides the port, not us.
+#                      Using a hardcoded port (like 5000) would fail.
+#
+# IMPORTANT: Remove '--reload' here vs development.
+# '--reload' watches files for changes and restarts — great locally.
+# On Railway files never change, so it wastes resources and causes issues.
+
+web: uvicorn main:app --host 0.0.0.0 --port $PORT
