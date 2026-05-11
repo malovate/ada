@@ -21,7 +21,6 @@ import {
   checkProactiveMessage,
   getAdaState,
 } from './services/api';
-import VoiceScreen from './screens/VoiceScreen';
 
 // ── Constants ─────────────────────────────────────────────────
 const STORAGE_KEY = 'ada_conversation';
@@ -44,11 +43,6 @@ export default function App() {
 
   const [proactiveBanner, setProactiveBanner] = useState(null);
   // Holds an unprompted message from Ada if she reached out.
-
-  const [screen, setScreen] = useState('chat');
-  // 'chat' = text chat interface (default)
-  // 'voice' = Ada's face / voice mode
-  // We switch between these with a button in the header.
 
   // ── Refs ──────────────────────────────────────────────────
   const messagesEndRef = useRef(null);
@@ -333,68 +327,14 @@ export default function App() {
   }
 
 
-  // ── handleVoiceScreenMessage() ──────────────────────────────
-  // Called by VoiceScreen when a voice exchange completes.
-  // Saves the exchange to chat history so it's not lost when
-  // Paul switches back to text mode.
-  function handleVoiceScreenMessage(paulText, adaText) {
-    const now = new Date().toISOString();
-    const paulMsg = { id: `paul_v_${Date.now()}`,   role: 'user',      content: paulText, timestamp: now };
-    const adaMsg  = { id: `ada_v_${Date.now()+1}`,  role: 'assistant', content: adaText,  timestamp: now };
-    const updated = [...messages, paulMsg, adaMsg];
-    setMessages(updated);
-    saveHistory(updated);
-    if (adaText) setAdaMood(adaText.mood || adaMood);
-  }
-
-  // ── Render ────────────────────────────────────────────────────
-  // If screen is 'voice', render VoiceScreen instead of chat.
-  if (screen === 'voice') {
-    return (
-      <VoiceScreen
-        adaMood={adaMood}
-        onBack={() => setScreen('chat')}
-        onNewMessage={handleVoiceScreenMessage}
-      />
-    );
-  }
-
-  // ── Render (chat mode) ────────────────────────────────────
+  // ── Render ────────────────────────────────────────────────
   return (
     <div style={styles.app}>
 
       {/* ── Header ── */}
       <header style={styles.header}>
-        {/* WhatsApp-style header with avatar, name, mood */}
-        <div style={styles.headerRow}>
-
-          {/* Left: avatar + name + mood */}
-          <div style={styles.headerLeft}>
-            <img
-              src="/ada-avatar.png"
-              alt="Ada"
-              style={styles.headerAvatar}
-            />
-            <div style={styles.headerInfo}>
-              <span style={styles.headerName}>Ada</span>
-              <MoodBar mood={adaMood} />
-            </div>
-          </div>
-
-          {/* Right: face mode button */}
-          <button
-            style={styles.faceBtn}
-            onClick={() => setScreen('voice')}
-            title="Switch to voice mode"
-          >
-            {/* Video/face call icon */}
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-              <polygon points="23 7 16 12 23 17 23 7" />
-              <rect x="1" y="5" width="15" height="14" rx="2" />
-            </svg>
-          </button>
-        </div>
+        <h1 style={styles.headerName}>ADA</h1>
+        <MoodBar mood={adaMood} />
       </header>
 
       {/* ── Proactive Banner ── */}
@@ -616,19 +556,5 @@ const styles = {
   proactiveTap: {
     color: 'var(--text-muted)',
     fontSize: '11px',
-  },
-
-  faceBtn: {
-    background: 'none',
-    border: 'none',
-    color: 'var(--purple)',
-    cursor: 'pointer',
-    padding: '6px',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '36px',
-    opacity: 0.7,
   },
 };

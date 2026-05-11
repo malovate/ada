@@ -13,6 +13,7 @@
 // After this runs, React owns that div completely.
 // ============================================================
 
+// import React, { StrictMode } from 'react';
 import { StrictMode } from 'react';
 // 'StrictMode' is a development helper.
 // It runs certain checks twice to catch bugs early.
